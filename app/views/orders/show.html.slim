@@ -1,0 +1,64 @@
+p#notice= notice
+p
+  label Delivery date: 
+  = @order.delivery_date
+p
+  label Shift: 
+  = @order.shift
+p
+  label Origin name: 
+  = @order.origin.name
+p
+  label Origin raw line 1: 
+  = @order.origin.raw_line_1
+p
+  label Origin city: 
+  = @order.origin.city
+p
+  label Origin state: 
+  = @order.origin.state
+p
+  label Origin zip: 
+  = @order.origin.zip
+p
+  label Origin country: 
+  = @order.origin.country
+p
+  label Client name: 
+  = @order.destination.name
+p
+  label Destination raw line 1: 
+  = @order.destination.raw_line_1
+p
+  label Destination city: 
+  = @order.destination.city
+p
+  label Destination state: 
+  = @order.destination.state
+p
+  label Destination zip: 
+  = @order.destination.zip
+p
+  label Destination country: 
+  = @order.destination.country
+p
+  label Phone number: 
+  = @order.phone_number
+p
+  label Mode: 
+  = @order.mode
+p
+  label Order number: 
+  = @order.order_number
+p
+  label Volume: 
+  = @order.volume
+p
+  label Handling unit quantity: 
+  = @order.handling_unit_quantity
+p
+  label Handling unit type: 
+  = @order.handling_unit_type
+
+p= link_to 'Edit', edit_order_path(@order)
+p= link_to 'Back', orders_path

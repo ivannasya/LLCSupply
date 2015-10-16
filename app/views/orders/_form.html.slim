@@ -1,0 +1,42 @@
+= simple_form_for @order, html: { class: 'form-horizontal' } do |f|
+  - if @order.errors.any?
+    #error_explanation
+      h2= pluralize(@order.errors.count, "error") 
+      | prohibited this order from being saved:
+        - @order.errors.full_messages.each do |message|
+          = message
+  = f.input :delivery_date
+  = f.input :shift, collection: Order.get_shift_values, as: :select
+  = f.input :phone_number
+  = f.input :mode, collection: Order.get_mode_values, as: :select
+  = f.input :order_number
+  = f.input :volume
+  = f.input :handling_unit_quantity
+  = f.input :handling_unit_type, collection: Order.get_handling_unit_type_values, as: :select
+  = f.fields_for :origin, f.object.origin do |o|
+    = o.label 'Origin name'
+    = o.input :name, label: false, name: "origin[name]"
+    = o.label 'Origin raw line 1'
+    = o.input :raw_line_1, label: false, name: "origin[raw_line_1]"
+    = o.label 'Origin city'
+    = o.input :city, label: false, name: "origin[city]"
+    = o.label 'Origin state'
+    = o.input :state, label: false, name: "origin[state]"
+    = o.label 'Origin country'
+    = o.input :country, label: false, name: "origin[country]"
+    = o.label 'Origin zip'
+    = o.input :zip, label: false, name: "origin[zip]"
+  = f.fields_for :destination, f.object.destination do |d|
+    = d.label 'Client name'
+    = d.input :name, label: false, name: "destination[name]"
+    = d.label 'Destination Raw line 1'
+    = d.input :raw_line_1, label: false, name: "destination[raw_line_1]"
+    = d.label 'Destination city'
+    = d.input :city, label: false, name: "destination[city]"
+    = d.label 'Destination state'
+    = d.input :state, label: false, name: "destination[state]"
+    = d.label 'Destination country'
+    = d.input :country, label: false, name: "destination[country]"
+    = d.label 'Destination zip'
+    = d.input :zip, label: false, name: "destination[zip]"
+  = f.button :submit

@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: postgres
+  password: postgres
+  port: 5432
+  pool: 5
+
+development:
+  <<: *default
+  database: LLCSupply_development
+test:
+  <<: *default
+  database: LLCSupply_test
+production:
+  <<: *default
+  database: LLCSupply_production

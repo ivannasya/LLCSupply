@@ -1,0 +1,56 @@
+= form_tag orders_path, method: :post, multipart: true do |f|
+  = file_field_tag :file
+  = submit_tag 'Save'
+= link_to 'Destroy_all', destroy_all_orders_path, method: :delete, data: { confirm: "Are you sure?" }
+h1 Orders
+
+table
+  thead
+    tr
+      th Delivery date
+      th Shift
+      th Origin name
+      th Origin raw line 1
+      th Origin city
+      th Origin state
+      th Origin zip
+      th Origin country 
+      th Client name
+      th Destination raw line 1
+      th Destination city
+      th Destination state
+      th Destination zip
+      th Destination country 
+      th Phone number
+      th Mode
+      th Order number
+      th Volume
+      th Handling unit quantity
+      th Handling unit type
+      th colspan="3"
+  tbody
+    - @orders.each do |order|
+      tr
+        td= order.delivery_date
+        td= order.shift
+        td= order.origin.name
+        td= order.origin.raw_line_1
+        td= order.origin.city
+        td= order.origin.state
+        td= order.origin.zip
+        td= order.origin.country
+        td= order.destination.name
+        td= order.destination.raw_line_1
+        td= order.destination.city
+        td= order.destination.state
+        td= order.destination.zip
+        td= order.destination.country
+        td= order.phone_number
+        td= order.mode
+        td= order.order_number
+        td= order.volume
+        td= order.handling_unit_quantity
+        td= order.handling_unit_type
+        td= link_to 'Show', order
+        td= link_to 'Edit', edit_order_path(order)
+        td= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' }
