@@ -4,11 +4,17 @@ module ImportFromCsv
 
   included do
     def create_points(row)
-      points = Point.all
-      origin = points.find_by_attrs(*point_params('origin', row).values).first
-      origin.nil? ? self.create_origin(point_params('origin', row)) : self.origin_id = origin.id
-      destination = points.find_by_attrs(*point_params('destination', row).values).first
-      destination.nil? ? self.create_destination(point_params('destination',row)) : self.destination_id = destination.id
+      create_association('origin', point_params("origin", row))
+      create_association('destination', point_params("destination", row))
+    end
+
+    def create_association(kind, params)
+      association = Point.find_by_attrs(*params.values).first
+      if association.nil?
+        self.send("create_#{kind}", params)
+      else 
+        self.send("#{kind}_id=", association.id)
+      end
     end
 
     def point_params(kind, row)

@@ -1,0 +1,38 @@
+h2= "Morning load #{@load.date}"
+
+table
+  thead
+    tr
+      th Order of stop
+      th Address
+      th Time
+      th Purchase Order 
+      th Description of Cargo
+      th Contact Phone
+  tbody
+    - @load.orders.each do |order|
+      tr
+      	td= order.id
+        td
+		  = order.destination.name
+		  = order.destination.raw_line_1
+		  = order.destination.city
+		  = order.destination.state
+		  = order.destination.zip
+		  = order.destination.country
+        td= "13:00"
+        td= order.order_number
+        td  
+          = order.volume
+          = order.handling_unit_quantity
+          = order.handling_unit_type
+        td= order.phone_number
+
+
+
+          / = order.origin.name
+          / = order.origin.raw_line_1 
+          / = order.origin.city 
+          / = order.origin.state
+          / = order.origin.zip
+          / = order.origin.country

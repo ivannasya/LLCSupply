@@ -11,10 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151014164504) do
+ActiveRecord::Schema.define(version: 20151016215022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "loads", force: true do |t|
+    t.string "shift"
+    t.date   "date"
+  end
 
   create_table "orders", force: true do |t|
     t.date    "delivery_date"
@@ -27,7 +32,10 @@ ActiveRecord::Schema.define(version: 20151014164504) do
     t.float   "volume"
     t.integer "handling_unit_quantity"
     t.string  "handling_unit_type"
+    t.integer "load_id"
   end
+
+  add_index "orders", ["load_id"], name: "index_orders_on_load_id", using: :btree
 
   create_table "points", force: true do |t|
     t.string "name"

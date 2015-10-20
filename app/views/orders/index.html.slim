@@ -2,6 +2,7 @@
   = file_field_tag :file
   = submit_tag 'Save'
 = link_to 'Destroy_all', destroy_all_orders_path, method: :delete, data: { confirm: "Are you sure?" }
+= link_to 'New load', new_load_path
 h1 Orders
 
 table
@@ -33,18 +34,30 @@ table
       tr
         td= order.delivery_date
         td= order.shift
-        td= order.origin.name
-        td= order.origin.raw_line_1
-        td= order.origin.city
-        td= order.origin.state
-        td= order.origin.zip
-        td= order.origin.country
-        td= order.destination.name
-        td= order.destination.raw_line_1
-        td= order.destination.city
-        td= order.destination.state
-        td= order.destination.zip
-        td= order.destination.country
+        td
+          = order.origin.name if order.origin
+        td
+          = order.origin.raw_line_1 if order.origin
+        td
+          = order.origin.city if order.origin
+        td
+          = order.origin.state if order.origin
+        td
+          = order.origin.zip if order.origin
+        td
+          = order.origin.country if order.origin
+        td
+          = order.destination.name if order.destination
+        td
+          = order.destination.raw_line_1 if order.destination
+        td
+          = order.destination.city if order.destination
+        td
+          = order.destination.state if order.destination
+        td
+          = order.destination.zip if order.destination
+        td
+          = order.destination.country if order.destination
         td= order.phone_number
         td= order.mode
         td= order.order_number

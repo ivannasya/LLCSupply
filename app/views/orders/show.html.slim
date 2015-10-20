@@ -7,40 +7,40 @@ p
   = @order.shift
 p
   label Origin name: 
-  = @order.origin.name
+  = @order.origin.name if @order.origin
 p
   label Origin raw line 1: 
-  = @order.origin.raw_line_1
+  = @order.origin.raw_line_1 if @order.origin
 p
   label Origin city: 
-  = @order.origin.city
+  = @order.origin.city if @order.origin
 p
   label Origin state: 
-  = @order.origin.state
+  = @order.origin.state if @order.origin
 p
   label Origin zip: 
-  = @order.origin.zip
+  = @order.origin.zip if @order.origin
 p
   label Origin country: 
-  = @order.origin.country
+  = @order.origin.country if @order.origin
 p
   label Client name: 
-  = @order.destination.name
+  = @order.destination.name if @order.destination
 p
   label Destination raw line 1: 
-  = @order.destination.raw_line_1
+  = @order.destination.raw_line_1 if @order.destination
 p
   label Destination city: 
-  = @order.destination.city
+  = @order.destination.city if @order.destination
 p
   label Destination state: 
-  = @order.destination.state
+  = @order.destination.state if @order.destination
 p
   label Destination zip: 
-  = @order.destination.zip
+  = @order.destination.zip if @order.destination
 p
   label Destination country: 
-  = @order.destination.country
+  = @order.destination.country if @order.destination
 p
   label Phone number: 
   = @order.phone_number

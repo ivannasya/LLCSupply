@@ -1,0 +1,6 @@
+= form_tag new_load_path, method: :get do
+  = select_tag(:orders_date, options_for_select(@orders_date, Order::DEFAULT_DATE))
+  = submit_tag "Show", class: "btn btn-success btn-sm"
+- unless @loadM.nil?
+  - @loadM.each do |load|
+    = link_to "Morning load #{load.date}", load_path(load)
