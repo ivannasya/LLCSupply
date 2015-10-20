@@ -1,8 +1,9 @@
 = form_tag orders_path, method: :post, multipart: true do |f|
   = file_field_tag :file
   = submit_tag 'Save'
-= link_to 'Destroy_all', destroy_all_orders_path, method: :delete, data: { confirm: "Are you sure?" }
-= link_to 'New load', new_load_path
+p= link_to 'Destroy_all', destroy_all_orders_path, method: :delete, data: { confirm: "Are you sure?" }
+p= link_to 'New load', new_load_path
+p= link_to 'Loads', loads_path
 h1 Orders
 
 table

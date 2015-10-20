@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20151016215022) do
     t.integer "handling_unit_quantity"
     t.string  "handling_unit_type"
     t.integer "load_id"
+    t.integer "origin_number"
+    t.integer "destination_number"
   end
 
   add_index "orders", ["load_id"], name: "index_orders_on_load_id", using: :btree
