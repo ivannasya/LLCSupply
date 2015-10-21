@@ -8,16 +8,16 @@ class LoadsController < ApplicationController
   end
 
   def new
-  	@orders_date = Order.uniq_dates
-  	@orders = Order.includes(:origin, :destination).where("delivery_date = ? or delivery_date IS NULL", params[:orders_date] || Order::DEFAULT_DATE)
-  	@form = LoadForm.new(@orders)
+    @orders_date = Order.uniq_dates
+    @orders = Order.includes(:origin, :destination).where("delivery_date = ? or delivery_date IS NULL", params[:orders_date] || Order::DEFAULT_DATE)
+    @form = LoadForm.new(@orders)
     @validation_errors = @form.validation_errors
   end
 
   def create
     @orders_date = Order.uniq_dates
     @orders = Order.includes(:origin, :destination).where("delivery_date = ? or delivery_date IS NULL", params[:orders_date] || Order::DEFAULT_DATE)
-  	@form = LoadForm.new(@orders)
+    @form = LoadForm.new(@orders)
     @validation_errors = @form.validation_errors
     if @form.submit(params[:load_form])
       redirect_to root_path
