@@ -35,13 +35,13 @@ module ImportFromCsv
     	  order = Order.new(csv_order_params(row))
     	  order.create_points(row)
     	  order.save
-  	  end
+      end
     end
 
     private
 
     def csv_order_params(row)
-	    { delivery_date:          (Date.strptime(row['delivery_date'], '%m/%d/%Y') if row['delivery_date']),
+      { delivery_date:          (Date.strptime(row['delivery_date'], '%m/%d/%Y') if row['delivery_date']),
         shift:                  row['delivery_shift'],
         phone_number:           row['phone_number'],
         mode:                   row['mode'],
@@ -49,7 +49,7 @@ module ImportFromCsv
         volume:                 row['volume'],
         handling_unit_quantity: row['handling_unit_quantity'],
         handling_unit_type:     row['handling_unit_type']
-  	  }
+      }
     end
   end
 end

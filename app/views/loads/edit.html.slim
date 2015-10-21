@@ -29,28 +29,17 @@
           td= o_f.input :origin_number, collection: (1..@orders.count*2), as: :select, label: false
           td= o_f.input :destination_number, collection: (1..@orders.count*2), as: :select, label: false
           td= o_f.object.origin.name if o_f.object.origin
-          td
-            = o_f.object.origin.raw_line_1 if o_f.object.origin
-          td
-            = o_f.object.origin.city if o_f.object.origin
-          td
-            = o_f.object.origin.state if o_f.object.origin
-          td
-            = o_f.object.origin.zip if o_f.object.origin
-          td
-            = o_f.object.origin.country if o_f.object.origin
-          td
-            = o_f.object.destination.name if o_f.object.destination
-          td
-            = o_f.object.destination.raw_line_1 if o_f.object.destination
-          td
-            = o_f.object.destination.city if o_f.object.destination
-          td
-            = o_f.object.destination.state if o_f.object.destination
-          td
-            = o_f.object.destination.zip if o_f.object.destination
-          td
-            = o_f.object.destination.country if o_f.object.destination
+          td= o_f.object.origin.raw_line_1 if o_f.object.origin
+          td= o_f.object.origin.city if o_f.object.origin
+          td= o_f.object.origin.state if o_f.object.origin
+          td= o_f.object.origin.zip if o_f.object.origin
+          td= o_f.object.origin.country if o_f.object.origin
+          td= o_f.object.destination.name if o_f.object.destination
+          td= o_f.object.destination.raw_line_1 if o_f.object.destination
+          td= o_f.object.destination.city if o_f.object.destination
+          td= o_f.object.destination.state if o_f.object.destination
+          td= o_f.object.destination.zip if o_f.object.destination
+          td= o_f.object.destination.country if o_f.object.destination
           td= o_f.object.phone_number
           td= o_f.object.mode
           td= o_f.object.order_number

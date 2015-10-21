@@ -45,7 +45,7 @@ class LoadsController < ApplicationController
     # Не доделано
     @load = Load.find(params[:id])
     respond_to do |format|
-      if @load.update_attributes(load_params)
+      if @load.orders.update_attributes(load_params)
         format.html { redirect_to @load, notice: 'Load was successfully updated.' }
       else
         format.html { render :edit }
