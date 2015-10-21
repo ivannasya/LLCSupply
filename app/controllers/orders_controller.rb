@@ -1,54 +1,45 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
 
   def index
-    @orders = Order.includes(:origin, :destination).all
+    @orders = Order.all
   end
 
   def show
+    @order = Order.find(params[:id])
   end
 
   def edit
+    @order = Order.find(params[:id])
   end
 
   def create
     @order = Order.import_from_csv(params[:file])
-    respond_to do |format|
-      format.html { redirect_to orders_url}
-    end
+    redirect_to orders_url
   end
 
   def update
-    respond_to do |format|
-      if @order.update(order_params)
-        @order.update_association('origin', association_params('origin'))
-        @order.update_association('destination', association_params('destination'))
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
-      else
-        format.html { render :edit }
-      end
+    @order = Order.find(params[:id])
+    if @order.update(order_params)
+      @order.update_association('origin', association_params('origin'))
+      @order.update_association('destination', association_params('destination'))
+      redirect_to @order
+    else
+      render :edit
     end
   end
 
   def destroy
+    @order = Order.find(params[:id])
     @order.destroy
-    respond_to do |format|
-      format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
-    end
+    redirect_to orders_url
   end
 
   def destroy_all
     Order.destroy_all
-    respond_to do |format|
-      format.html { redirect_to orders_url, notice: 'Orders was successfully destroyed.' }
-    end
+    redirect_to orders_url
   end
 
   private
-
-    def set_order
-      @order = Order.find(params[:id])
-    end
 
     def order_params
       params.require(:order).permit(:delivery_date, :shift, :origin_id, :destination_id, :phone_number, :mode, :order_number, :volume, :handling_unit_quantity, :handling_unit_type)

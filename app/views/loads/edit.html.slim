@@ -24,8 +24,9 @@
         th Handling unit type
         th colspan="3"
     tbody
-      = f.fields_for :orders, f.object.orders do |o_f|
+      = f.fields_for :orders do |o_f|
         tr
+          =o_f.hidden_field :id
           td= o_f.input :origin_number, collection: (1..@orders.count*2), as: :select, label: false
           td= o_f.input :destination_number, collection: (1..@orders.count*2), as: :select, label: false
           td= o_f.object.origin.name if o_f.object.origin

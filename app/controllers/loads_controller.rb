@@ -2,9 +2,9 @@ class LoadsController < ApplicationController
   
   def index
     @orders_date = Order.uniq_dates
-    @loadM = Load.where("date = ? and shift = ?", params[:orders_date] || Order::DEFAULT_DATE, 'M')
-    @loadN = Load.where("date = ? and shift = ?", params[:orders_date] || Order::DEFAULT_DATE, 'N')
-    @loadE = Load.where("date = ? and shift = ?", params[:orders_date] || Order::DEFAULT_DATE, 'E')
+    @loadM = Load.morning(params[:orders_date])
+    @loadN = Load.noon(params[:orders_date])
+    @loadE = Load.evening(params[:orders_date])
   end
 
   def new
@@ -20,7 +20,7 @@ class LoadsController < ApplicationController
     @form = LoadForm.new(@orders)
     @validation_errors = @form.validation_errors
     if @form.submit(params[:load_form])
-      redirect_to root_path
+      redirect_to loads_path
     else
       render 'new'
     end
@@ -42,29 +42,24 @@ class LoadsController < ApplicationController
   end
 
   def update
-    # Не доделано
     @load = Load.find(params[:id])
-    respond_to do |format|
-      if @load.update_attributes(load_params)
-        format.html { redirect_to @load, notice: 'Load was successfully updated.' }
-      else
-        format.html { render :edit }
-      end
+    if @load.update_attributes(load_params)
+      redirect_to @load
+    else
+      render :edit
     end
   end
 
   def destroy
     @load = Load.find(params[:id])
     @load.destroy
-    respond_to do |format|
-      format.html { redirect_to loads_path, notice: 'Load was successfully destroyed.' }
-    end
+    redirect_to loads_path
   end
 
   private
 
   def load_params
-    params.require(:load).permit(orders_attributes: [:origin_number, :destination_number])
+    params.require(:load).permit(orders_attributes: [:id, :origin_number, :destination_number])
   end
 
   def order_params(order, kind)
