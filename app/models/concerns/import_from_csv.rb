@@ -12,7 +12,7 @@ module ImportFromCsv
       association = Point.find_by_attrs(*params.values).first
       if association.nil?
         self.send("create_#{kind}", params)
-      else 
+      else
         self.send("#{kind}_id=", association.id)
       end
     end

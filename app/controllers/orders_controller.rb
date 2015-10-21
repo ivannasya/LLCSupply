@@ -19,9 +19,8 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
-    if @order.update(order_params)
-      @order.update_association('origin', association_params('origin'))
-      @order.update_association('destination', association_params('destination'))
+    @order_form = OrderForm.new(@order)
+    if @order_form.update(params)
       redirect_to @order
     else
       render :edit
@@ -38,14 +37,4 @@ class OrdersController < ApplicationController
     Order.destroy_all
     redirect_to orders_url
   end
-
-  private
-
-    def order_params
-      params.require(:order).permit(:delivery_date, :shift, :origin_id, :destination_id, :phone_number, :mode, :order_number, :volume, :handling_unit_quantity, :handling_unit_type)
-    end
-
-    def association_params(kind)
-      params.require(:order).permit("#{kind}" => [:zip, :name, :raw_line_1, :city, :state, :country])["#{kind}"]
-    end
 end
