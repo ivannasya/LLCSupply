@@ -43,10 +43,10 @@ class LoadForm
       if value[:shift] == shift
         order = Order.find(order_id)
         order.update_attributes(destination_number: value[:destination_number], 
-  	  							            origin_number: value[:origin_number])
+                                origin_number: value[:origin_number])
         load.orders << order
-  	  end
-  	end
+      end
+    end
     load.save
   end
 end

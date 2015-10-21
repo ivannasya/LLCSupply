@@ -28,7 +28,7 @@ class OrderValidator
       Point.find(id).attributes.except("id").each do |name, value|  
         send("#{kind}_#{name}=", value)
       end
-  	end
+    end
   end  
 
   def self.phone_number_format
