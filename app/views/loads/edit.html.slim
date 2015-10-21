@@ -28,8 +28,7 @@
         tr
           td= o_f.input :origin_number, collection: (1..@orders.count*2), as: :select, label: false
           td= o_f.input :destination_number, collection: (1..@orders.count*2), as: :select, label: false
-          td
-            = o_f.object.origin.name if o_f.object.origin
+          td= o_f.object.origin.name if o_f.object.origin
           td
             = o_f.object.origin.raw_line_1 if o_f.object.origin
           td

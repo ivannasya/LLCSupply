@@ -42,6 +42,7 @@ class LoadsController < ApplicationController
   end
 
   def update
+    # Не доделано
     @load = Load.find(params[:id])
     respond_to do |format|
       if @load.update_attributes(load_params)

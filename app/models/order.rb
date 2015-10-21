@@ -14,7 +14,9 @@ class Order < ActiveRecord::Base
   symbolize :mode, in: MODE, allow_blank: true
   symbolize :handling_unit_type, in: HANDLING_UNIT_TYPE, allow_blank: true
 
-  scope :uniq_dates, -> { pluck(:delivery_date).uniq.compact.sort_by {|time| time} }
+  def self.uniq_dates
+    self.pluck(:delivery_date).uniq.compact.sort_by {|time| time}
+  end
 
   DEFAULT_DATE = '2014-09-15'
 end
