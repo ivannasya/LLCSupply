@@ -2,9 +2,6 @@ class Order < ActiveRecord::Base
   include ImportFromCsv
   include UpdateOrderAssociation
 
-  attr_accessor :create_loads
-  validates_presence_of :origin_number, :destination_number, allow_blank: false, if: :create_loads
-
   belongs_to :origin, class_name: "Point", foreign_key: "origin_id" 
   belongs_to :destination, class_name: "Point", foreign_key: "destination_id"
   belongs_to :load
@@ -17,7 +14,7 @@ class Order < ActiveRecord::Base
   symbolize :mode, in: MODE, allow_blank: true
   symbolize :handling_unit_type, in: HANDLING_UNIT_TYPE, allow_blank: true
 
-  scope :uniq_dates, -> { pluck(:delivery_date).uniq.compact }
+  scope :uniq_dates, -> { pluck(:delivery_date).uniq.compact.sort_by {|time| time} }
 
   DEFAULT_DATE = '2014-09-15'
 end

@@ -1,4 +1,12 @@
 class LoadsController < ApplicationController
+  
+  def index
+    @orders_date = Order.uniq_dates
+    @loadM = Load.where("date = ? and shift = ?", params[:orders_date] || Order::DEFAULT_DATE, 'M')
+    @loadN = Load.where("date = ? and shift = ?", params[:orders_date] || Order::DEFAULT_DATE, 'N')
+    @loadE = Load.where("date = ? and shift = ?", params[:orders_date] || Order::DEFAULT_DATE, 'E')
+  end
+
   def new
   	@orders_date = Order.uniq_dates
   	@orders = Order.includes(:origin, :destination).where("delivery_date = ? or delivery_date IS NULL", params[:orders_date] || Order::DEFAULT_DATE)
@@ -18,13 +26,6 @@ class LoadsController < ApplicationController
     end
   end
 
-  def index
-    @orders_date = Order.uniq_dates
-    @loadM = Load.where("date = ? and shift = ?", params[:orders_date] || Order::DEFAULT_DATE, 'M')
-    @loadN = Load.where("date = ? and shift = ?", params[:orders_date] || Order::DEFAULT_DATE, 'N')
-    @loadE = Load.where("date = ? and shift = ?", params[:orders_date] || Order::DEFAULT_DATE, 'E')
-  end
-
   def show
     @orders = []
     @load = Load.find(params[:id])
@@ -35,7 +36,35 @@ class LoadsController < ApplicationController
     @orders.sort_by! { |hsh| hsh[:number] }
   end
 
+  def edit
+    @load = Load.find(params[:id])
+    @orders = @load.orders
+  end
+
+  def update
+    @load = Load.find(params[:id])
+    respond_to do |format|
+      if @load.update_attributes(load_params)
+        format.html { redirect_to @load, notice: 'Load was successfully updated.' }
+      else
+        format.html { render :edit }
+      end
+    end
+  end
+
+  def destroy
+    @load = Load.find(params[:id])
+    @load.destroy
+    respond_to do |format|
+      format.html { redirect_to loads_path, notice: 'Load was successfully destroyed.' }
+    end
+  end
+
   private
+
+  def load_params
+    params.require(:load).permit(orders_attributes: [:origin_number, :destination_number])
+  end
 
   def order_params(order, kind)
     kind == 'origin' ? type = 'Load' : type = 'Unload'

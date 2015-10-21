@@ -1,13 +1,7 @@
 p= link_to 'Orders', orders_path
-= form_tag new_load_path, method: :get do
-  = select_tag(:orders_date, options_for_select(@orders_date, Order::DEFAULT_DATE))
+= form_tag loads_path, method: :get do
+  = select_tag(:orders_date, options_for_select(@orders_date, params[:orders_date]))
   = submit_tag "Show", class: "btn btn-success btn-sm"
-- unless @loadM.nil?
-  - @loadM.each do |load|
-    p= link_to "Morning load #{load.date}", load_path(load)
-- unless @loadN.nil?
-  - @loadN.each do |load|
-    p= link_to "Afternoon load #{load.date}", load_path(load)
-- unless @loadE.nil?
-  - @loadE.each do |load|
-    p= link_to "Evening load #{load.date}", load_path(load)
+= render 'loads/pre_show', loads: @loadM, shift: 'Morning'
+= render 'loads/pre_show', loads: @loadN, shift: 'Afternoon'
+= render 'loads/pre_show', loads: @loadE, shift: 'Evening'

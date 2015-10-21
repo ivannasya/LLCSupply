@@ -1,5 +1,6 @@
-h2= "Morning load #{@load.date}"
-p= link_to 'loads', loads_path
+h2= "Load #{@load.date}"
+p= link_to 'Loads', loads_path
+p= link_to 'Edit', edit_load_path(@load)
 
 table
   thead

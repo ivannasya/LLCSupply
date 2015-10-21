@@ -1,7 +1,7 @@
 p= link_to 'Loads', loads_path
 p= link_to 'Orders', orders_path
 = form_tag new_load_path, method: :get do
-  = select_tag(:orders_date, options_for_select(@orders_date, Order::DEFAULT_DATE))
+  = select_tag(:orders_date, options_for_select(@orders_date, params[:orders_date]))
   = submit_tag "Show", class: "btn btn-success btn-sm"
 = simple_form_for @form, url: loads_path, method: :post do |f| 
   = f.hidden_field :date, value: params[:orders_date] || Order::DEFAULT_DATE
@@ -44,8 +44,8 @@ p= link_to 'Orders', orders_path
       - @orders.each do |order|
         tr
           td= order.id
-          td= select_tag "load_form[orders][#{order.id}][origin_number]", options_for_select(1..@orders.count*2), include_blank: ''
-          td= select_tag "load_form[orders][#{order.id}][destination_number]", options_for_select(1..@orders.count*2), include_blank: ''
+          td= select_tag "load_form[orders][#{order.id}][origin_number]", options_for_select(1..@orders.count*2)
+          td= select_tag "load_form[orders][#{order.id}][destination_number]", options_for_select(1..@orders.count*2)
           td
             = select_tag "load_form[orders][#{order.id}][shift]", options_for_select(Order.get_shift_values, order.shift), include_blank: ''
           td= order.delivery_date

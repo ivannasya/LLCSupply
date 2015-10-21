@@ -42,15 +42,11 @@ class LoadForm
 	  params.each do |order_id, value|
   	  if value[:shift] == shift
   	  	order = Order.find(order_id)
-  	  	order.create_loads = true
-  	  	@orders_update_valid << order.valid?
-		    @validation_errors["#{order_id}"] = order.errors.full_messages unless order.valid?
   	  	order.update_attributes(destination_number: value[:destination_number], 
   	  							            origin_number: value[:origin_number])
   	  	load.orders << order
   	  end
   	end
-  	return false unless @orders_update_valid.all? 
   	load.save
   end
 end
