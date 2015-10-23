@@ -27,8 +27,12 @@
       = f.fields_for :orders do |o_f|
         tr
           =o_f.hidden_field :id
-          td= o_f.input :origin_number, collection: (1..@orders.count*2), as: :select, label: false
-          td= o_f.input :destination_number, collection: (1..@orders.count*2), as: :select, label: false
+          td= o_f.fields_for :origin_stop, o_f.object.origin_stop do |o_s|
+            =o_s.input :number, collection: (1..@orders.count*2), as: :select, label: false
+            =o_s.hidden_field :point_id, value: o_f.object.origin.id
+          td= o_f.fields_for :destination_stop, o_f.object.destination_stop do |o_s|
+            =o_s.input :number, collection: (1..@orders.count*2), as: :select, label: false
+            =o_s.hidden_field :point_id, value: o_f.object.destination.id
           td= o_f.object.origin.name if o_f.object.origin
           td= o_f.object.origin.raw_line_1 if o_f.object.origin
           td= o_f.object.origin.city if o_f.object.origin

@@ -12,11 +12,19 @@ table
       th Description of cargo
       th Contact phone
   tbody
-    - @orders.each do |order|
+    - @load.stops.each do |stop|
       tr
-      	td= order[:number]
-        td= order[:address]
-        td= order[:type]
-        td= order[:order_number]
-        td= order[:description]
-        td= order[:phone_number]
+      	td rowspan="#{stop.orders_count + 1}"= stop.number
+        td rowspan="#{stop.orders_count + 1}"= stop.point.address
+        - stop.destination_orders.each do |order|
+          tr 
+            td Unload
+            td= order.order_number
+            td= order.description
+            td= order.phone_number
+        - stop.origin_orders.each do |order|
+          tr
+            td Load
+            td= order.order_number
+            td= order.description
+            td= order.phone_number

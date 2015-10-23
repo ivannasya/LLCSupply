@@ -44,36 +44,32 @@ p= link_to 'Orders', orders_path
       - @orders.each do |order|
         tr
           td= order.id
-          td= select_tag "load_form[orders][#{order.id}][origin_number]", options_for_select(1..@orders.count*2)
-          td= select_tag "load_form[orders][#{order.id}][destination_number]", options_for_select(1..@orders.count*2)
-          td
-            = select_tag "load_form[orders][#{order.id}][shift]", options_for_select(Order.get_shift_values, order.shift), include_blank: ''
+          = f.fields_for :stops, [Stop.new] do |stop_origin|
+            td= stop_origin.input :number, collection: (1..@orders.count*2), as: :select, label: false, include_blank: false
+            = stop_origin.hidden_field :point_id, value: order.origin.id
+            = stop_origin.hidden_field :origin_order, value: order.id
+          = f.fields_for :stops, [Stop.new] do |stop_destination|
+            td= stop_destination.input :number, collection: (1..@orders.count*2), as: :select, label: false, include_blank: false
+            = stop_destination.hidden_field :point_id, value: order.destination.id
+            = stop_destination.hidden_field :destination_order, value: order.id
+          td= select_tag "load_form[shifts][#{order.id}]", options_for_select(Order.get_shift_values, order.shift), include_blank: ''
+          / = f.fields_for :shifts do |s_f|
+          /   td= s_f.input :shift, collection: Order.get_shift_values, as: :select, selected: order.shift, include_blank: '', label: false
+          /   = s_f.hidden_field :order_id, value: order.id
           td= order.delivery_date
           td= order.shift
-          td
-            = order.origin.name if order.origin
-          td
-            = order.origin.raw_line_1 if order.origin
-          td
-            = order.origin.city if order.origin
-          td
-            = order.origin.state if order.origin
-          td
-            = order.origin.zip if order.origin
-          td
-            = order.origin.country if order.origin
-          td
-            = order.destination.name if order.destination
-          td
-            = order.destination.raw_line_1 if order.destination
-          td
-            = order.destination.city if order.destination
-          td
-            = order.destination.state if order.destination
-          td
-            = order.destination.zip if order.destination
-          td
-            = order.destination.country if order.destination
+          td= order.origin.name if order.origin
+          td= order.origin.raw_line_1 if order.origin
+          td= order.origin.city if order.origin
+          td= order.origin.state if order.origin
+          td= order.origin.zip if order.origin
+          td= order.origin.country if order.origin
+          td= order.destination.name if order.destination
+          td= order.destination.raw_line_1 if order.destination
+          td= order.destination.city if order.destination
+          td= order.destination.state if order.destination
+          td= order.destination.zip if order.destination
+          td= order.destination.country if order.destination
           td= order.phone_number
           td= order.mode
           td= order.order_number

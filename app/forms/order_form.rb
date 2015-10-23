@@ -1,7 +1,7 @@
 class OrderForm
   include ActiveModel::Model
 
-  attr_accessor :delivery_date, :shift, :origin_id, :destination_id, :phone_number, :mode, :order_number, :volume, :handling_unit_quantity, :handling_unit_type
+  attr_accessor :delivery_date, :shift, :origin_id, :destination_id, :phone_number, :mode, :order_number, :volume, :handling_unit_quantity, :handling_unit_type, :validation_errors
 
   def initialize(order)
     @order = order
@@ -11,14 +11,16 @@ class OrderForm
     @order.update(order_params(params))
     update_association('origin', association_params('origin', params))
     update_association('destination', association_params('destination', params))
-    @order.save ? true : false
+    validator = OrderValidator.new(@order.attributes)
+    validator.valid?
+    @validation_errors = validator.errors.full_messages
+    return false unless validator.valid?
+    @order.save
   end
 
   def update_association(kind, params)
-    params
     association = @order.send("#{kind}")
     @order.create_association(kind, params)
-    @order.save
     association.delete if association.send("#{kind}_orders").count == 0
   end
 

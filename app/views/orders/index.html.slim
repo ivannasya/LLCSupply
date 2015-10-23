@@ -35,30 +35,18 @@ table
       tr
         td= order.delivery_date
         td= order.shift
-        td
-          = order.origin.name if order.origin
-        td
-          = order.origin.raw_line_1 if order.origin
-        td
-          = order.origin.city if order.origin
-        td
-          = order.origin.state if order.origin
-        td
-          = order.origin.zip if order.origin
-        td
-          = order.origin.country if order.origin
-        td
-          = order.destination.name if order.destination
-        td
-          = order.destination.raw_line_1 if order.destination
-        td
-          = order.destination.city if order.destination
-        td
-          = order.destination.state if order.destination
-        td
-          = order.destination.zip if order.destination
-        td
-          = order.destination.country if order.destination
+        td= order.origin.name if order.origin
+        td= order.origin.raw_line_1 if order.origin
+        td= order.origin.city if order.origin
+        td= order.origin.state if order.origin
+        td= order.origin.zip if order.origin
+        td= order.origin.country if order.origin
+        td= order.destination.name if order.destination
+        td= order.destination.raw_line_1 if order.destination
+        td= order.destination.city if order.destination
+        td= order.destination.state if order.destination
+        td= order.destination.zip if order.destination
+        td= order.destination.country if order.destination
         td= order.phone_number
         td= order.mode
         td= order.order_number

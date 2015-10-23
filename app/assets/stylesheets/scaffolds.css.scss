@@ -6,6 +6,9 @@ body {
   line-height: 18px;
 }
 
+table, th, td {
+   border: 1px solid black;
+}
 p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;

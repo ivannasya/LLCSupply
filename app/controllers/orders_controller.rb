@@ -23,6 +23,7 @@ class OrdersController < ApplicationController
     if @order_form.update(params)
       redirect_to @order
     else
+      @errors = @order_form.validation_errors
       render :edit
     end
   end

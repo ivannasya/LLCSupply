@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151016215022) do
+ActiveRecord::Schema.define(version: 20151021161315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(version: 20151016215022) do
     t.float   "volume"
     t.integer "handling_unit_quantity"
     t.string  "handling_unit_type"
+    t.integer "origin_stop_id"
+    t.integer "destination_stop_id"
     t.integer "load_id"
-    t.integer "origin_number"
-    t.integer "destination_number"
   end
 
   add_index "orders", ["load_id"], name: "index_orders_on_load_id", using: :btree
@@ -47,5 +47,14 @@ ActiveRecord::Schema.define(version: 20151016215022) do
     t.string "zip"
     t.string "country"
   end
+
+  create_table "stops", force: true do |t|
+    t.integer "point_id"
+    t.integer "load_id"
+    t.integer "number"
+  end
+
+  add_index "stops", ["load_id"], name: "index_stops_on_load_id", using: :btree
+  add_index "stops", ["point_id"], name: "index_stops_on_point_id", using: :btree
 
 end

@@ -9,14 +9,14 @@ class LoadsController < ApplicationController
 
   def new
     @orders_date = Order.uniq_dates
-    @orders = Order.includes(:origin, :destination).where("delivery_date = ? or delivery_date IS NULL", params[:orders_date] || Order::DEFAULT_DATE)
+    @orders = Order.all_by_date(params[:orders_date])
     @form = LoadForm.new(@orders)
     @validation_errors = @form.validation_errors
   end
 
   def create
     @orders_date = Order.uniq_dates
-    @orders = Order.includes(:origin, :destination).where("delivery_date = ? or delivery_date IS NULL", params[:orders_date] || Order::DEFAULT_DATE)
+    @orders = Order.all_by_date(params[:orders_date])
     @form = LoadForm.new(@orders)
     @validation_errors = @form.validation_errors
     if @form.submit(params[:load_form])
@@ -27,13 +27,11 @@ class LoadsController < ApplicationController
   end
 
   def show
-    @orders = []
     @load = Load.find(params[:id])
-    @load.orders.each do |order|
-      @orders << order_params(order, 'origin')
-      @orders << order_params(order, 'destination')
+    respond_to do |format|
+      format.html
+      format.csv { send_data @load.to_csv, filename: "#{@load.date}-#{@load.shift}.csv" }
     end
-    @orders.sort_by! { |hsh| hsh[:number] }
   end
 
   def edit
@@ -43,7 +41,9 @@ class LoadsController < ApplicationController
 
   def update
     @load = Load.find(params[:id])
-    if @load.update_attributes(load_params)
+    @orders = @load.orders
+    @load_form = LoadForm.new(@orders)
+    if @load_form.update(@load, load_params)
       redirect_to @load
     else
       render :edit
@@ -59,22 +59,11 @@ class LoadsController < ApplicationController
   private
 
   def load_params
-    params.require(:load).permit(orders_attributes: [:id, :origin_number, :destination_number])
+    params.require(:load).permit(orders_attributes: [:id, origin_stop_attributes: [:id, :number, :point_id], destination_stop_attributes: [:id, :number, :point_id] ])
   end
 
-  def order_params(order, kind)
-    kind == 'origin' ? type = 'Load' : type = 'Unload'
-    { number: order.send("#{kind}_number"), 
-      address: order.send("#{kind}").name + ', ' + 
-               order.send("#{kind}").raw_line_1 + ', ' + 
-               order.send("#{kind}").city + ', ' + 
-               order.send("#{kind}").state + ', ' + 
-               order.send("#{kind}").country + ', ' + 
-               order.send("#{kind}").zip,
-      order_number: order.order_number,
-      description:  "#{order.volume}/#{order.handling_unit_quantity}/#{order.handling_unit_type}",
-      phone_number: order.phone_number,
-      type: type
-    }
+  def load_form_params
+    params.require(:load_form).permit(:date, stops_attributes: [:id, :number, :point_id, :origin_orders])
   end
+
 end

@@ -3,3 +3,4 @@
     p= link_to "#{shift} load #{load.date}", load_path(load)
     p= link_to 'Destroy', load, method: :delete, data: { confirm: 'Are you sure?' }
     p= link_to 'Edit', edit_load_path(load)
+    p= link_to "Download CSV", load_path(load, format: "csv")

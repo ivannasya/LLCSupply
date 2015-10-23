@@ -1,7 +1,7 @@
 class AddLoadIdToOrder < ActiveRecord::Migration
   def change
+    add_column :orders, :origin_stop_id, :integer
+    add_column :orders, :destination_stop_id, :integer
     add_reference :orders, :load, index: true
-    add_column :orders, :origin_number, :integer
-    add_column :orders, :destination_number, :integer
   end
 end
