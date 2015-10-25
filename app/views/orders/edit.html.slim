@@ -1,6 +1,40 @@
-h1 Editing order
-
-= render 'form'
-
-p= link_to 'Show', @order
-p= link_to 'Back', orders_path
+.order_panel  
+  h1 Editing order
+  p= render 'loads/validation_errors', validation_errors: @validation_errors || []
+  = simple_form_for @order do |f|
+    = f.input :delivery_date
+    = f.input :shift, collection: Order.get_shift_values, as: :select
+    = f.input :phone_number
+    = f.input :mode, collection: Order.get_mode_values, as: :select
+    = f.input :order_number
+    = f.input :volume
+    = f.input :handling_unit_quantity
+    = f.input :handling_unit_type, collection: Order.get_handling_unit_type_values, as: :select
+    = f.fields_for :origin, f.object.origin do |o|
+      = o.label :name, 'Origin name'
+      = o.input :name, label: false
+      = o.label :raw_line_1, 'Origin raw line 1'
+      = o.input :raw_line_1, label: false
+      = o.label :city, 'Origin city'
+      = o.input :city, label: false
+      = o.label :state, 'Origin state'
+      = o.input :state, label: false
+      = o.label :country, 'Origin country'
+      = o.input :country, label: false
+      = o.label :zip, 'Origin zip'
+      = o.input :zip, label: false
+    = f.fields_for :destination, f.object.destination do |d|
+      = d.label :name, 'Client name'
+      = d.input :name, label: false
+      = d.label :raw_line_1, 'Destination Raw line 1'
+      = d.input :raw_line_1, label: false
+      = d.label :city, 'Destination city'
+      = d.input :city, label: false
+      = d.label :state, 'Destination state'
+      = d.input :state, label: false
+      = d.label :country, 'Destination country'
+      = d.input :country, label: false
+      = d.label :zip, 'Destination zip'
+      = d.input :zip, label: false
+    = link_to 'Cancel', orders_path, class: "btn btn-default"
+    = f.button :submit, class: "btn btn-primary"

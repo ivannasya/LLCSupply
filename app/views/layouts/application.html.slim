@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title LLCSupply
+    = stylesheet_link_tag "http://bootswatch.com/cosmo/bootstrap.min.css"
+    = stylesheet_link_tag "application", media: "all"
+    = csrf_meta_tags
+    = javascript_include_tag 'application'
+  body
+    = render 'layouts/navbar'
+    .container
+      = yield
+  = javascript_include_tag 'orders'
+

@@ -12,8 +12,9 @@ class OrderValidator
 
   validates :mode, inclusion: { in: Order::MODE.map(&:to_s)+Order::MODE }
   validates :handling_unit_type, inclusion: { in: Order::HANDLING_UNIT_TYPE.map(&:to_s)+Order::HANDLING_UNIT_TYPE }
-  validates_numericality_of :order_number, :origin_zip, :destination_zip,  only_integer: true
+  validates_numericality_of :order_number, :origin_zip, :destination_zip, :handling_unit_quantity, only_integer: true
   validates :order_number, length: { is: 9 }
+  validates_numericality_of :volume, less_than_or_equal_to: 1400
 
   def initialize(order = {})
     order.each do |name, value|

@@ -1,0 +1,16 @@
+- validation_errors.each do |id, errors|
+  - unless errors.empty?
+    .panel.panel-warning
+      .panel-heading
+        .panel-title
+          - if id == 'M'
+            = "Morning routing list has conflicts:"
+          - elsif id == 'N'
+            = "AfterNoon routing list has conflicts:"
+          - elsif id == 'E'
+            = "Evening routing list has conflicts:"
+          - else
+            = "The order №#{id} has conflicts:"
+      .panel-body
+        - errors.each do |error|
+          li= error

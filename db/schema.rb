@@ -11,15 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151021161315) do
+ActiveRecord::Schema.define(version: 20151024122433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "loads", force: true do |t|
-    t.string "shift"
-    t.date   "date"
+    t.string  "shift"
+    t.date    "date"
+    t.integer "driver_id"
   end
+
+  add_index "loads", ["driver_id"], name: "index_loads_on_driver_id", using: :btree
 
   create_table "orders", force: true do |t|
     t.date    "delivery_date"
@@ -56,5 +59,13 @@ ActiveRecord::Schema.define(version: 20151021161315) do
 
   add_index "stops", ["load_id"], name: "index_stops_on_load_id", using: :btree
   add_index "stops", ["point_id"], name: "index_stops_on_point_id", using: :btree
+
+  create_table "users", force: true do |t|
+    t.string   "username"
+    t.string   "password_digest"
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

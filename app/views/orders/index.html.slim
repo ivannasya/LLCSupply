@@ -1,28 +1,17 @@
 = form_tag orders_path, method: :post, multipart: true do |f|
-  = file_field_tag :file
-  = submit_tag 'Save'
-p= link_to 'Destroy_all', destroy_all_orders_path, method: :delete, data: { confirm: "Are you sure?" }
-p= link_to 'New load', new_load_path
-p= link_to 'Loads', loads_path
+  .col-sm-4= file_field_tag :file, class: "filestyle"
+  = submit_tag 'Save', class: "btn btn-primary"
+  - if allow? 'orders', 'delete_all'
+    = link_to 'Destroy all', destroy_all_orders_path, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-warning"
 h1 Orders
 
-table
+table.table.table-striped.table-hover
   thead
     tr
       th Delivery date
       th Shift
-      th Origin name
-      th Origin raw line 1
-      th Origin city
-      th Origin state
-      th Origin zip
-      th Origin country 
-      th Client name
-      th Destination raw line 1
-      th Destination city
-      th Destination state
-      th Destination zip
-      th Destination country 
+      th Origin address
+      th Destination address
       th Phone number
       th Mode
       th Order number
@@ -35,18 +24,8 @@ table
       tr
         td= order.delivery_date
         td= order.shift
-        td= order.origin.name if order.origin
-        td= order.origin.raw_line_1 if order.origin
-        td= order.origin.city if order.origin
-        td= order.origin.state if order.origin
-        td= order.origin.zip if order.origin
-        td= order.origin.country if order.origin
-        td= order.destination.name if order.destination
-        td= order.destination.raw_line_1 if order.destination
-        td= order.destination.city if order.destination
-        td= order.destination.state if order.destination
-        td= order.destination.zip if order.destination
-        td= order.destination.country if order.destination
+        td= order.origin.address if order.origin
+        td= order.destination.address if order.destination
         td= order.phone_number
         td= order.mode
         td= order.order_number

@@ -1,0 +1,46 @@
+p= render 'loads/validation_errors', validation_errors: @validation_errors
+= simple_form_for form, url: loads_path, method: :post do |f| 
+  = f.hidden_field :date, value: params[:orders_date] || Order::DEFAULT_DATE
+  table.table.table-striped.table-hover
+    thead
+      tr
+        th №
+        th Order of load
+        th Order of unload
+        th Shift
+        th Preferred shift
+        th Origin address
+        th Destination address
+        th Description (volume/ quantity/ type)
+        th Order number
+        th Phone number
+        th Mode
+        th Delivery date
+        th colspan="3"
+    tbody
+      - @orders.each_with_index do |order, index|
+        tr
+          td= order.id
+          = f.fields_for :stops, order.origin_stop || [Stop.new] do |stop_origin|
+            = stop_origin.hidden_field :id
+            td= stop_origin.input :number, collection: (1..@orders.count*2), as: :select, label: false, include_blank: false, selected: stop_origin.object.number || (params[:load_form] && params[:load_form][:stops_attributes]["#{index*2}"][:number])
+            = stop_origin.hidden_field :point_id, value: order.origin.id
+            = stop_origin.hidden_field :origin_orders, value: order.id
+          = f.fields_for :stops, order.destination_stop || [Stop.new] do |stop_destination|
+            = stop_destination.hidden_field :id
+            td= stop_destination.input :number, collection: (1..@orders.count*2), as: :select, label: false, include_blank: false, selected: stop_destination.object.number || (params[:load_form] && params[:load_form][:stops_attributes]["#{index*2+1}"][:number])
+            = stop_destination.hidden_field :point_id, value: order.destination.id
+            = stop_destination.hidden_field :destination_orders, value: order.id
+          td= select_tag "load_form[shifts][#{order.id}]", options_for_select(Order.get_shift_values, (params[:load_form] && params[:load_form][:shifts]["#{order.id}"]) || (order.load && order.load.shift ) || order.shift), include_blank: '', class: 'form-control'
+          td= order.shift
+          td= order.origin.address if order.origin
+          td= order.destination.address if order.destination
+          td= order.description
+          td= order.order_number
+          td= order.phone_number
+          td= order.mode
+          td= order.delivery_date
+          td= link_to 'Edit', edit_order_path(order)
+          td= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' }
+  = link_to 'Cancel', loads_path, class: "btn btn-default"
+  = f.submit 'Create loads', class: "btn btn-primary"

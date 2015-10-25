@@ -1,8 +1,8 @@
 h2= "Load #{@load.date}"
-p= link_to 'Loads', loads_path
-p= link_to 'Edit', edit_load_path(@load)
-
-table
+p= link_to "Download CSV", load_path(@load, format: "csv"), class: "btn btn-primary"
+- if allow? 'loads', 'edit'
+  p= link_to 'Edit', edit_load_path(@load), class: "btn btn-link"
+table.table.table-striped.table-hover
   thead
     tr
       th Order of stop

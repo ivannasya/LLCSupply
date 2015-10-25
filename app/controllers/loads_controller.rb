@@ -1,5 +1,5 @@
 class LoadsController < ApplicationController
-  
+
   def index
     @orders_date = Order.uniq_dates
     @loadM = Load.morning(params[:orders_date])
@@ -22,12 +22,12 @@ class LoadsController < ApplicationController
     if @form.submit(params[:load_form])
       redirect_to loads_path
     else
-      render 'new'
+      render 'edit'
     end
   end
 
   def show
-    @load = Load.find(params[:id])
+    @load = current_resourse
     respond_to do |format|
       format.html
       format.csv { send_data @load.to_csv, filename: "#{@load.date}-#{@load.shift}.csv" }
@@ -35,28 +35,24 @@ class LoadsController < ApplicationController
   end
 
   def edit
-    @load = Load.find(params[:id])
-    @orders = @load.orders
-  end
-
-  def update
-    @load = Load.find(params[:id])
-    @orders = @load.orders
-    @load_form = LoadForm.new(@orders)
-    if @load_form.update(@load, load_params)
-      redirect_to @load
-    else
-      render :edit
-    end
+    @orders_date = Order.uniq_dates
+    @orders = Order.all_by_date(params[:orders_date])
+    @form = LoadForm.new(@orders)
+    @validation_errors = @form.validation_errors
   end
 
   def destroy
-    @load = Load.find(params[:id])
+    @load = current_resourse
+    @load.orders.clear
     @load.destroy
     redirect_to loads_path
   end
 
   private
+
+  def current_resourse
+    @current_resourse ||= Load.find(params[:id]) if params[:id]
+  end
 
   def load_params
     params.require(:load).permit(orders_attributes: [:id, origin_stop_attributes: [:id, :number, :point_id], destination_stop_attributes: [:id, :number, :point_id] ])

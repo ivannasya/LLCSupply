@@ -4,6 +4,11 @@ class OrdersController < ApplicationController
     @orders = Order.all
   end
 
+  def create
+    @order = Order.import_from_csv(params[:file])
+    redirect_to orders_url
+  end
+
   def show
     @order = Order.find(params[:id])
   end
@@ -12,18 +17,13 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
-  def create
-    @order = Order.import_from_csv(params[:file])
-    redirect_to orders_url
-  end
-
   def update
     @order = Order.find(params[:id])
     @order_form = OrderForm.new(@order)
     if @order_form.update(params)
       redirect_to @order
     else
-      @errors = @order_form.validation_errors
+      @validation_errors = @order_form.validation_errors
       render :edit
     end
   end

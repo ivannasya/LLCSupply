@@ -1,7 +1,9 @@
-p= link_to 'Orders', orders_path
 = form_tag loads_path, method: :get do
-  = select_tag(:orders_date, options_for_select(@orders_date, params[:orders_date]))
-  = submit_tag "Show", class: "btn btn-success btn-sm"
-= render 'loads/pre_show', loads: @loadM, shift: 'Morning'
-= render 'loads/pre_show', loads: @loadN, shift: 'Afternoon'
-= render 'loads/pre_show', loads: @loadE, shift: 'Evening'
+  .col-sm-3= select_tag(:orders_date, options_for_select(@orders_date, params[:orders_date]), class: "form-control")
+  = submit_tag "Show", class: "btn btn-primary"
+  - if allow? 'loads', 'new'
+    = link_to 'New load', new_load_path, class: "btn btn-warning"
+hr
+.col-sm-4= render 'loads/pre_show', loads: @loadM, shift: 'Morning'
+.col-sm-4= render 'loads/pre_show', loads: @loadN, shift: 'Afternoon'
+.col-sm-4= render 'loads/pre_show', loads: @loadE, shift: 'Evening'

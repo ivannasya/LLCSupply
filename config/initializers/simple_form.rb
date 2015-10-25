@@ -128,7 +128,7 @@ SimpleForm.setup do |config|
   # matches the regexp as value.
   # config.input_mappings = { /count/ => :integer }
   config.input_mappings = { /country/ => :string }
-
+  
   # Custom wrappers for input types. This should be a hash containing an input
   # type as key and the wrapper that will be used for all inputs with specified type.
   # config.wrapper_mappings = { string: :prepend }
@@ -142,6 +142,7 @@ SimpleForm.setup do |config|
 
   # Default priority for country inputs.
   # config.country_priority = nil
+
 
   # When false, do not use translations for labels.
   # config.translate_labels = true
