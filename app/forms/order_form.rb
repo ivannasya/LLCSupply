@@ -9,7 +9,7 @@ class OrderForm
 
   def update(params)
     @validation_errors = {}
-    @order.update(order_params(params))
+    @order.attributes = order_params(params)
     update_association('origin', association_params('origin', params))
     update_association('destination', association_params('destination', params))
     validator = OrderValidator.new(@order.attributes)

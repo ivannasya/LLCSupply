@@ -19,9 +19,9 @@ class Load < ActiveRecord::Base
 
   def to_csv
     CSV.generate(col_sep: ";") do |csv|
-      csv << ['Order of stop', 'Address', 'Type', 'Purchase order', 'Description of cargo', 'Contact phone']
+      csv << ['Order of stop', 'Address', 'Date and shift', 'Type', 'Purchase order', 'Description (volume/quantity/type)', 'Contact phone']
       self.stops.each do |stop|
-        stop_attr = [stop.number, Point.find(stop.point_id).address]
+        stop_attr = [stop.number, Point.find(stop.point_id).address, "#{stop.load.date}/#{stop.load.shift}"]
         stop.destination_orders.each do |order|
           order_attr = ['Unload', order.order_number, order.description, order.phone_number]
           csv << stop_attr + order_attr
@@ -65,6 +65,6 @@ class Load < ActiveRecord::Base
   end
 
   def check_orders_volume
-    errors.add(:orders, "volume is larger than allowed(#{Load::VOLUME})") unless orders_volume_valid?
+    errors.add(:orders, "volume is larger than allowed(should be less then #{Load::VOLUME})") unless orders_volume_valid?
   end
 end

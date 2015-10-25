@@ -7,6 +7,6 @@ class Point < ActiveRecord::Base
         zip: zip, name: name, raw_line_1: raw_line_1, city: city, state: state, country: country) }
 
   def address
-    "#{self.name}, #{self.raw_line_1}, #{self.city}, #{self.state}, #{self.country}, #{zip}"
+    [self.name, self.raw_line_1, self.city, self.state, self.country, zip].compact.join(", ")
   end
 end

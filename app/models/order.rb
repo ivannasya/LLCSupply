@@ -27,7 +27,7 @@ class Order < ActiveRecord::Base
   end
 
   def description
-    "#{self.volume}/#{self.handling_unit_quantity}/#{self.handling_unit_type}"
+    [self.volume, self.handling_unit_quantity, self.handling_unit_type].compact.join("/")
   end
 
 end

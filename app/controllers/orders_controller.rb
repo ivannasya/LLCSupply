@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
   def destroy
     @order = Order.find(params[:id])
     @order.destroy
-    redirect_to orders_url
+    redirect_to(:back)
   end
 
   def destroy_all

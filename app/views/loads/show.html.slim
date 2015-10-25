@@ -5,17 +5,19 @@ p= link_to "Download CSV", load_path(@load, format: "csv"), class: "btn btn-prim
 table.table.table-striped.table-hover
   thead
     tr
-      th Order of stop
+      th Order of stops
       th Address
+      th Date and shift
       th Type
       th Purchase order
-      th Description of cargo
+      th Description (volume/quantity/type)
       th Contact phone
   tbody
     - @load.stops.each do |stop|
       tr
       	td rowspan="#{stop.orders_count + 1}"= stop.number
         td rowspan="#{stop.orders_count + 1}"= stop.point.address
+        td rowspan="#{stop.orders_count + 1}"= "#{stop.load.date}/#{stop.load.shift}"
         - stop.destination_orders.each do |order|
           tr 
             td Unload

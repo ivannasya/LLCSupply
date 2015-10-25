@@ -15,8 +15,7 @@ class LoadsController < ApplicationController
   end
 
   def create
-    @orders_date = Order.uniq_dates
-    @orders = Order.all_by_date(params[:orders_date])
+    @orders = Order.all_by_date(params[:load_form][:date])
     @form = LoadForm.new(@orders)
     @validation_errors = @form.validation_errors
     if @form.submit(params[:load_form])
@@ -35,8 +34,7 @@ class LoadsController < ApplicationController
   end
 
   def edit
-    @orders_date = Order.uniq_dates
-    @orders = Order.all_by_date(params[:orders_date])
+    @orders = Order.all_by_date(current_resourse.date)
     @form = LoadForm.new(@orders)
     @validation_errors = @form.validation_errors
   end
