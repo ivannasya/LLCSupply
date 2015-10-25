@@ -19,6 +19,8 @@ class OrderForm
     @order.save
   end
 
+  private
+
   def update_association(kind, params)
     association = @order.send("#{kind}")
     @order.create_association(kind, params)
@@ -32,5 +34,4 @@ class OrderForm
   def association_params(kind, params)
     params.require(:order).permit("#{kind}" => [:zip, :name, :raw_line_1, :city, :state, :country])["#{kind}"]
   end
-
 end

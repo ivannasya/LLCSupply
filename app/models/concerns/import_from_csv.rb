@@ -30,11 +30,13 @@ module ImportFromCsv
 
   module ClassMethods
     def import_from_csv(file)
-      CSV.foreach(file.path, headers: true) do |row|
-      	row   = row.to_hash
-    	  order = Order.new(csv_order_params(row))
-    	  order.create_points(row)
-    	  order.save
+      if file
+        CSV.foreach(file.path, headers: true) do |row|
+        	row   = row.to_hash
+      	  order = Order.new(csv_order_params(row))
+      	  order.create_points(row)
+      	  order.save
+        end
       end
     end
 

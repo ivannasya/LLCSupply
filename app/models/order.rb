@@ -6,9 +6,6 @@ class Order < ActiveRecord::Base
   belongs_to :origin_stop, class_name: "Stop", foreign_key: "origin_stop_id"
   belongs_to :destination_stop, class_name: "Stop", foreign_key: "destination_stop_id"
   belongs_to :load
-
-  accepts_nested_attributes_for :origin_stop
-  accepts_nested_attributes_for :destination_stop
   
   SHIFT = [:M, :E, :N]
   MODE = [:TRUCKLOAD]
@@ -29,5 +26,4 @@ class Order < ActiveRecord::Base
   def description
     [self.volume, self.handling_unit_quantity, self.handling_unit_type].compact.join("/")
   end
-
 end

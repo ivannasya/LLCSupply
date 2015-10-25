@@ -36,6 +36,7 @@ class OrdersController < ApplicationController
 
   def destroy_all
     Order.destroy_all
+    Load.destroy_all
     redirect_to orders_url
   end
 end

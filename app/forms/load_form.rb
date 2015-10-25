@@ -25,25 +25,6 @@ class LoadForm
     @stops || []
   end
 
-  def date
-    @date || []
-  end
-
-  def date=(date)
-    @date = date
-  end
-
-  def validation
-    @validation_errors = {}
-    @orders_valid = []
-    @orders.each do |order|
-      validator = OrderValidator.new(order.attributes)
-      valid = validator.valid?
-      @orders_valid << valid
-      @validation_errors["#{validator.id}"] = validator.errors.full_messages
-    end
-  end
-
   def submit(params)
     shifts = params[:shifts].values.uniq.reject(&:empty?)
     return false unless @orders_valid.all?
@@ -64,6 +45,19 @@ class LoadForm
       return false
     end
     load.save
+  end
+
+  private
+
+  def validation
+    @validation_errors = {}
+    @orders_valid = []
+    @orders.each do |order|
+      validator = OrderValidator.new(order.attributes)
+      valid = validator.valid?
+      @orders_valid << valid
+      @validation_errors["#{validator.id}"] = validator.errors.full_messages
+    end
   end
 
   def create_stop(number, params, load, shift)

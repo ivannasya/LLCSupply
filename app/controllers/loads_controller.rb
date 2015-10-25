@@ -59,5 +59,4 @@ class LoadsController < ApplicationController
   def load_form_params
     params.require(:load_form).permit(:date, stops_attributes: [:id, :number, :point_id, :origin_orders])
   end
-
 end
