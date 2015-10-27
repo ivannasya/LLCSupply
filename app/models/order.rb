@@ -26,4 +26,14 @@ class Order < ActiveRecord::Base
   def description
     [self.volume, self.handling_unit_quantity, self.handling_unit_type].compact.join(", ")
   end
+
+  def self.orders_validation(orders)
+    validation_errors = {}
+    orders.each do |order|
+      validator = OrderValidator.new(order.attributes)
+      validator.valid?
+      validation_errors["#{validator.id}"] = validator.errors.full_messages
+    end
+    validation_errors
+  end
 end

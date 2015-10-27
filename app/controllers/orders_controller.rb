@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
   def index
     @orders_date = Order.uniq_dates
     @orders = Order.all_by_date(params[:orders_date])
-    @validation_errors = orders_validation(@orders)
+    @validation_errors = Order.orders_validation(@orders)
   end
 
   def create
@@ -40,17 +40,5 @@ class OrdersController < ApplicationController
     Order.destroy_all
     Load.destroy_all
     redirect_to orders_url
-  end
-
-  private
-
-  def orders_validation(orders)
-    @validation_errors = {}
-    orders.each do |order|
-      validator = OrderValidator.new(order.attributes)
-      validator.valid?
-      @validation_errors["#{validator.id}"] = validator.errors.full_messages
-    end
-    @validation_errors
   end
 end

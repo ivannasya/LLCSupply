@@ -6,6 +6,8 @@ FactoryGirl.define do
     role "driver_one"
 
     factory :dispatcher do 
+      username 'dispatcher'
+      password 'dispatcher'
       role 'dispatcher'
     end
   end
