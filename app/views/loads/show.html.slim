@@ -10,14 +10,14 @@ table.table.table-striped.table-hover
       th Date and shift
       th Type
       th Purchase order
-      th Description (volume/quantity/type)
+      th Description (volume, quantity, type)
       th Contact phone
   tbody
     - @load.stops.each do |stop|
       tr
       	td rowspan="#{stop.orders_count + 1}"= stop.number
         td rowspan="#{stop.orders_count + 1}"= stop.point.address
-        td rowspan="#{stop.orders_count + 1}"= "#{stop.load.date}/#{stop.load.shift}"
+        td rowspan="#{stop.orders_count + 1}"= "#{@load.date}, #{@load.shift}"
         - stop.destination_orders.each do |order|
           tr 
             td Unload

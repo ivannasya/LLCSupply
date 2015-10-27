@@ -61,11 +61,9 @@ ActiveRecord::Schema.define(version: 20151024122433) do
   add_index "stops", ["point_id"], name: "index_stops_on_point_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "username"
-    t.string   "password_digest"
-    t.string   "role"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "username"
+    t.string "password_digest"
+    t.string "role"
   end
 
 end

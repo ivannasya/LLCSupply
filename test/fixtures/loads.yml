@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  shift: MyString
-  date: 2015-10-16
-
-two:
-  shift: MyString
-  date: 2015-10-16

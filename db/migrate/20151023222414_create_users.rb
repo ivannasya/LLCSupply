@@ -4,8 +4,6 @@ class CreateUsers < ActiveRecord::Migration
       t.string :username
       t.string :password_digest
       t.string :role
-
-      t.timestamps
     end
 
     User.create username: 'dispatcher', role: 'dispatcher', password: 'dispatcher'
