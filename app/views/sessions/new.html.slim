@@ -1,4 +1,6 @@
 .login_panel
+  - flash.each do |name, msg|
+    .alert.alert-dismissible.alert-warning= content_tag :div, msg, class: name
   h2 Log In
   hr
   = form_tag sessions_path, class: "form-horizontal" do

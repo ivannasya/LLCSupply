@@ -81,6 +81,6 @@ class LoadForm
 
   def delete_old_loads(date)
     loads = Load.where("date = ?", date)
-    loads.each {|load| load.delete if load.orders.empty?}
+    loads.each {|load| load.destroy if load.orders.empty?}
   end
 end
