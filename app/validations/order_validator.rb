@@ -2,8 +2,8 @@ class OrderValidator
   include ActiveModel::Validations  
   
   attr_accessor :id, :delivery_date, :shift, :origin_id, :destination_id, :phone_number, :mode, :order_number, :volume, :handling_unit_quantity, :handling_unit_type, :load_id,
-  				      :origin_name, :origin_raw_line_1, :origin_city, :origin_state, :origin_zip, :origin_country, :origin_stop_id,
-				        :destination_name, :destination_raw_line_1, :destination_city, :destination_state, :destination_zip, :destination_country, :destination_stop_id
+                :origin_name, :origin_raw_line_1, :origin_city, :origin_state, :origin_zip, :origin_country, :origin_stop_id,
+                :destination_name, :destination_raw_line_1, :destination_city, :destination_state, :destination_zip, :destination_country, :destination_stop_id
 
   validates :delivery_date, :origin_id, :destination_id, :phone_number, :mode, :order_number, :volume, :handling_unit_quantity, :handling_unit_type,
   			    :origin_name, :origin_raw_line_1, :origin_city, :origin_state, :origin_zip, :origin_country, 
