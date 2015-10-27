@@ -3,7 +3,6 @@ class Load < ActiveRecord::Base
   has_many :orders
   belongs_to :user
   accepts_nested_attributes_for :stops
-  accepts_nested_attributes_for :orders
 
   validates :date, :shift, :driver_id, presence: true
 

@@ -19,7 +19,7 @@ class LoadsController < ApplicationController
     @form = LoadForm.new(@orders)
     @validation_errors = @form.validation_errors
     if @form.submit(params[:load_form])
-      redirect_to loads_path
+      redirect_to loads_path(orders_date: params[:load_form][:date])
     else
       render 'edit'
     end

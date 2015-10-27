@@ -3,11 +3,16 @@
   = submit_tag 'Save', class: "btn btn-primary"
   - if allow? 'orders', 'delete_all'
     = link_to 'Destroy all', destroy_all_orders_path, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-warning"
+hr
+p= form_tag orders_path, method: :get do
+  .col-sm-3= select_tag(:orders_date, options_for_select(@orders_date, params[:orders_date]), class: "form-control")
+  = submit_tag "Show", class: "btn btn-primary"
 h1 Orders
-
+p= render 'loads/validation_errors', validation_errors: @validation_errors || []
 table.table.table-striped.table-hover
   thead
     tr
+      th ID
       th Delivery date
       th Shift
       th Origin address
@@ -22,6 +27,7 @@ table.table.table-striped.table-hover
   tbody
     - @orders.each do |order|
       tr
+        td= order.id
         td= order.delivery_date
         td= order.shift
         td= order.origin.address if order.origin

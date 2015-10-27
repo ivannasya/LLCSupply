@@ -60,5 +60,5 @@ p
   label Handling unit type: 
   = @order.handling_unit_type
 
-= link_to 'Back', orders_path, class: "btn btn-default" 
+= link_to 'Back', orders_path(orders_date: @order.delivery_date), class: "btn btn-default" 
 = link_to 'Edit', edit_order_path(@order), class: "btn btn-primary"

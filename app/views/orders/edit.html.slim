@@ -36,5 +36,5 @@
       = d.input :country, label: false
       = d.label :zip, 'Destination zip'
       = d.input :zip, label: false
-    = link_to 'Cancel', orders_path, class: "btn btn-default"
+    = link_to 'Cancel', orders_path(orders_date: @order.delivery_date), class: "btn btn-default"
     = f.button :submit, class: "btn btn-primary"
