@@ -1,4 +1,4 @@
-require 'csv'    
+require 'csv'
 module ImportFromCsv
   extend ActiveSupport::Concern
 
@@ -18,11 +18,11 @@ module ImportFromCsv
     end
 
     def point_params(kind, row)
-      { zip:        row["#{kind}_zip"], 
-        name:       row["#{kind}_name"] || row['client name'], 
-        raw_line_1: row["#{kind}_raw_line_1"], 
-        city:       row["#{kind}_city"], 
-        state:      row["#{kind}_state"], 
+      { zip:        row["#{kind}_zip"],
+        name:       row["#{kind}_name"] || row['client name'],
+        raw_line_1: row["#{kind}_raw_line_1"],
+        city:       row["#{kind}_city"],
+        state:      row["#{kind}_state"],
         country:    row["#{kind}_country"]
       }
     end

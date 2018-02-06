@@ -1,12 +1,12 @@
 class Point < ActiveRecord::Base
-  has_many :origin_orders, class_name: "Order", foreign_key: "origin_id" 
+  has_many :origin_orders, class_name: "Order", foreign_key: "origin_id"
   has_many :destination_orders, class_name: "Order", foreign_key: "destination_id"
   has_many :stops
 
-  scope :find_by_attrs, ->(zip, name, raw_line_1, city, state, country) { where("zip = :zip and name = :name and raw_line_1 = :raw_line_1 and city = :city and state = :state and country = :country", 
+  scope :find_by_attrs, ->(zip, name, raw_line_1, city, state, country) { where("zip = :zip and name = :name and raw_line_1 = :raw_line_1 and city = :city and state = :state and country = :country",
         zip: zip, name: name, raw_line_1: raw_line_1, city: city, state: state, country: country) }
 
   def address
-    [self.name, self.raw_line_1, self.city, self.state, self.country, zip].compact.join(", ")
+    [name, raw_line_1, city, state, country, zip].compact.join(", ")
   end
 end

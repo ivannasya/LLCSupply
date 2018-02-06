@@ -7,9 +7,9 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
-  resources :orders do 
+  resources :loads do
     delete 'destroy_all', on: :collection
   end
 
-  resources :loads
+  resources :orders
 end

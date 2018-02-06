@@ -1,14 +1,16 @@
 class Load < ActiveRecord::Base
   has_many :stops, -> { order 'stops.number' }, dependent: :destroy
-  has_many :orders
+  has_many :orders, dependent: :destroy
   belongs_to :user
   accepts_nested_attributes_for :stops
 
   validates :date, :shift, :driver_id, presence: true
 
-  scope :morning, ->(orders_date) { where("date = ? and shift = ?", orders_date || Order::DEFAULT_DATE, 'M') }
-  scope :noon, ->(orders_date) { where("date = ? and shift = ?", orders_date || Order::DEFAULT_DATE, 'N') }
-  scope :evening, ->(orders_date) { where("date = ? and shift = ?", orders_date || Order::DEFAULT_DATE, 'E') }
+  symbolize :shift, :in => [:M, :N, :E], scopes: true
+
+  scope :morning, ->(orders_date) { where("date = ? and shift = ?", orders_date, 'M') }
+  scope :noon, ->(orders_date) { where("date = ? and shift = ?", orders_date, 'N') }
+  scope :evening, ->(orders_date) { where("date = ? and shift = ?", orders_date, 'E') }
 
   VOLUME = 1400
 
@@ -20,30 +22,13 @@ class Load < ActiveRecord::Base
     CsvGenerator.generate(self)
   end
 
-  def get_driver
-    counter = (self.date - Order::DEFAULT_DATE.to_date).to_i
-    if counter.odd? 
-      first  = User.where("role = ?", 'driver_two').first.id
-      second = User.where("role = ?", 'driver_one').first.id
-    else
-      first  = User.where("role = ?", 'driver_one').first.id
-      second = User.where("role = ?", 'driver_two').first.id
-    end
-    case self.shift
-    when 'M' then self.driver_id = first
-    when 'N' then self.driver_id = second
-    when 'E' then self.driver_id = first
-    else nil
-    end
-  end
-
   private
 
   def orders_volume_valid?
     check = []
     volume = 0
-    self.stops.each do |stop| 
-      stop.origin_orders.each {|order| volume += order.volume} 
+    stops.each do |stop|
+      stop.origin_orders.each {|order| volume += order.volume}
       stop.destination_orders.each {|order| volume -= order.volume}
       check << (volume.round(2) <= 1400)
     end

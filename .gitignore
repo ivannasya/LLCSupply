@@ -17,3 +17,4 @@
 .bundle
 .DS_Store
 .vagrant
+.byebug_history

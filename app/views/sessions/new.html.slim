@@ -9,5 +9,5 @@
       .col-lg-9= text_field_tag :username, params[:username], class: 'form-control'
     .form-group
       .col-lg-3= label_tag :password
-      .col-lg-9= text_field_tag :password, '', class: 'form-control'
+      .col-lg-9= password_field_tag :password, '', class: 'form-control'
     = submit_tag "Log In", class: "btn btn-primary"

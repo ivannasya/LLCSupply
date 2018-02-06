@@ -1,6 +1,6 @@
 p= render 'loads/validation_errors', validation_errors: @validation_errors
-= simple_form_for form, url: loads_path, method: :post do |f| 
-  = f.hidden_field :date, value: @orders.first.delivery_date
+= simple_form_for form, url: loads_path, method: :post do |f|
+  = f.hidden_field :date, value: @orders.first.try(:delivery_date)
   table.table.table-striped.table-hover
     thead
       tr
@@ -42,5 +42,5 @@ p= render 'loads/validation_errors', validation_errors: @validation_errors
           td= order.delivery_date
           td= link_to 'Edit', edit_order_path(order)
           td= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' }
-  = link_to 'Cancel', loads_path(orders_date: @orders.first.delivery_date), class: "btn btn-default"
+  = link_to 'Cancel', loads_path(orders_date: @orders.first.try(:delivery_date)), class: "btn btn-default"
   = f.submit 'Create loads', class: "btn btn-primary"

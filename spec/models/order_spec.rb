@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'order_validator.rb'
 
-RSpec.describe Stop, type: :model do 
+RSpec.describe Stop, type: :model do
   let(:order) { create(:order) }
   let(:huge_order) { create(:order, volume: Load::VOLUME+1) }
   let(:order_number) { create(:order, order_number: 1234567890) }
@@ -15,37 +15,37 @@ RSpec.describe Stop, type: :model do
   end
 
   it "validates that volume less then #{Load::VOLUME}" do
-    validator = OrderValidator.new(huge_order.attributes)
+    validator = OrderValidator.new(huge_order)
     validator.valid?
     expect(validator.errors.messages[:volume]).to eq(["must be less than or equal to #{Load::VOLUME}"])
   end
 
   it "validates that order_number is valid" do
-    validator = OrderValidator.new(order.attributes)
+    validator = OrderValidator.new(order)
     validator.valid?
     expect(huge_order.errors.messages).to eq({})
   end
 
   it "validates that order_number has length 9" do
-    validator = OrderValidator.new(order_number.attributes)
+    validator = OrderValidator.new(order_number)
     validator.valid?
     expect(validator.errors.messages[:order_number]).to eq(["is the wrong length (should be 9 characters)"])
   end
 
   it "validates that handling_unit_type is box" do
-    validator = OrderValidator.new(order_type.attributes)
+    validator = OrderValidator.new(order_type)
     validator.valid?
     expect(validator.errors.messages[:handling_unit_type]).to eq(["is not included in the list"])
   end
 
   it "validates that mode is TRUCKLOAD" do
-    validator = OrderValidator.new(order_mode.attributes)
+    validator = OrderValidator.new(order_mode)
     validator.valid?
     expect(validator.errors.messages[:mode]).to eq(["is not included in the list"])
   end
 
   it "validates that phone_number is invalid" do
-    validator = OrderValidator.new(order_phone.attributes)
+    validator = OrderValidator.new(order_phone)
     validator.valid?
     expect(validator.errors.messages[:phone_number]).to eq(["is invalid"])
   end

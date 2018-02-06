@@ -1,10 +1,9 @@
 - unless loads.nil?
   - loads.each do |load|
     - if allow? 'loads', 'show', load
-      p= link_to "#{shift} load #{load.date}", load_path(load), class: 'list-group-item'
+      p= link_to "#{load.shift_text} load #{load.date}", load_path(load), class: 'list-group-item'
       div= link_to "Download CSV", load_path(load, format: "csv"), class: "btn btn-link"
     - if allow? 'loads', 'edit'
       = link_to 'Edit', edit_load_path(load), class: "btn btn-link"
     - if allow? 'loads', 'destroy'
       = link_to 'Destroy', load_path(load), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link"
-    

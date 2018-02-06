@@ -12,10 +12,10 @@ class OrderForm
     @order.attributes = order_params(params)
     update_association('origin', association_params('origin', params))
     update_association('destination', association_params('destination', params))
-    validator = OrderValidator.new(@order.attributes)
-    validator.valid?
+    validator = OrderValidator.new(@order)
+    valid = validator.valid?
     @validation_errors["#{validator.id}"] = validator.errors.full_messages
-    return false unless validator.valid?
+    return false unless valid
     @order.save
   end
 

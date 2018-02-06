@@ -1,8 +1,8 @@
-.order_panel  
+.order_panel
   h1 Editing order
   p= render 'loads/validation_errors', validation_errors: @validation_errors || []
   = simple_form_for @order do |f|
-    = f.input :delivery_date
+    = f.input :delivery_date, include_blank: true
     = f.input :shift, collection: Order.get_shift_values, as: :select
     = f.input :phone_number
     = f.input :mode, collection: Order.get_mode_values, as: :select

@@ -1,8 +1,9 @@
 class OrdersController < ApplicationController
+  before_action :set_order, only: [:show, :edit, :update, :destroy]
 
   def index
     @orders_date = Order.uniq_dates
-    @orders = Order.all_by_date(params[:orders_date])
+    @orders = Order.preload(:origin, :destination).all_by_date(params[:orders_date])
     @validation_errors = Order.orders_validation(@orders)
   end
 
@@ -12,15 +13,12 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.find(params[:id])
   end
 
   def edit
-    @order = Order.find(params[:id])
   end
 
   def update
-    @order = Order.find(params[:id])
     @order_form = OrderForm.new(@order)
     if @order_form.update(params)
       redirect_to @order
@@ -31,14 +29,13 @@ class OrdersController < ApplicationController
   end
 
   def destroy
-    @order = Order.find(params[:id])
     @order.destroy
     redirect_to(:back)
   end
 
-  def destroy_all
-    Order.destroy_all
-    Load.destroy_all
-    redirect_to orders_url
+  private
+
+  def set_order
+    @order = Order.find(params[:id])
   end
 end

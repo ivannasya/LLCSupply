@@ -1,23 +1,21 @@
 class LoadsController < ApplicationController
+  before_action :set_orders_date, only: [:index, :new]
+  before_action :set_load, only: [:show, :edit, :destroy]
 
   def index
-    @orders_date = Order.uniq_dates
-    @loadM = Load.morning(params[:orders_date])
-    @loadN = Load.noon(params[:orders_date])
-    @loadE = Load.evening(params[:orders_date])
+    @loads = if current_user.dispatcher?
+      params[:orders_date].present? ? Load.where("date = ?", params[:orders_date]) : Load.all
+    else
+      params[:orders_date].present? ? current_user.loads.where("date = ?", params[:orders_date]) : current_user.loads
+    end
   end
 
   def new
-    @orders_date = Order.uniq_dates
-    @orders = Order.all_by_date(params[:orders_date])
-    @form = LoadForm.new(@orders)
-    @validation_errors = @form.validation_errors
+    init_load_form(params[:orders_date])
   end
 
   def create
-    @orders = Order.all_by_date(params[:load_form][:date])
-    @form = LoadForm.new(@orders)
-    @validation_errors = @form.validation_errors
+    init_load_form(params[:load_form][:date])
     if @form.submit(params[:load_form])
       redirect_to loads_path(orders_date: params[:load_form][:date])
     else
@@ -26,30 +24,40 @@ class LoadsController < ApplicationController
   end
 
   def show
-    @load = current_resourse
     respond_to do |format|
       format.html
-      format.csv { send_data @load.to_csv, filename: "#{@load.date}-#{@load.shift}.csv" }
+      format.csv { send_data @load.to_csv, filename: "#{@load.date}-#{@load.shift_text}.csv" }
     end
   end
 
   def edit
-    @orders = Order.all_by_date(current_resourse.date)
-    @form = LoadForm.new(@orders)
-    @validation_errors = @form.validation_errors
+    init_load_form(@load.date)
   end
 
   def destroy
-    @load = current_resourse
-    @load.orders.clear
     @load.destroy
     redirect_to loads_path
   end
 
+  def destroy_all
+    Load.destroy_all
+    redirect_to orders_url
+  end
+
   private
 
-  def current_resourse
-    @current_resourse ||= Load.find(params[:id]) if params[:id]
+  def init_load_form(date)
+    @orders = Order.all_by_date(date)
+    @form = LoadForm.new(@orders)
+    @validation_errors = @form.validation_errors
+  end
+
+  def set_orders_date
+    @orders_date ||= Order.uniq_dates
+  end
+
+  def set_load
+    @load = Load.find(params[:id])
   end
 
   def load_params

@@ -22,6 +22,11 @@
 en:
   activerecord:
     symbolizes:
+      load:
+        shift:
+          M: Morning
+          N: Afternoon
+          E: Evening
       order:
         shift:
           M: M

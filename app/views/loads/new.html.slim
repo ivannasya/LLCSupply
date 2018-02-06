@@ -1,4 +1,5 @@
-= form_tag new_load_path, method: :get do
-  .col-sm-3= select_tag(:orders_date, options_for_select(@orders_date, params[:orders_date]), class: "form-control")
-  = submit_tag "Show", class: "btn btn-primary"
+.manag-section
+  = form_tag new_load_path, method: :get do
+    .col-3= select_tag(:orders_date, options_for_select(@orders_date, params[:orders_date]), class: "form-control")
+    = submit_tag "Show", class: "btn btn-primary"
 p= render 'loads/form', form: @form

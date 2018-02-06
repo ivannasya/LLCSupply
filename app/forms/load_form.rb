@@ -9,7 +9,7 @@ class LoadForm
     false
   end
 
-  def initialize(orders) 
+  def initialize(orders)
     @orders = orders
     validation
   end
@@ -35,8 +35,7 @@ class LoadForm
   end
 
   def create(shift, params)
-    load = Load.new({date: date, shift: shift})
-    load.get_driver
+    load = Load.new({date: date, shift: shift, driver_id: get_driver(date, shift).try(:id)})
     stops_params = get_stops_by_shifts(params)["#{shift}"]
     stops_params = stops_params.group_by {|s| s[:number]}
     stops_params.each {|number, stop| create_stop(number, stop, load, shift)}
@@ -53,7 +52,7 @@ class LoadForm
     @validation_errors = {}
     @orders_valid = []
     @orders.each do |order|
-      validator = OrderValidator.new(order.attributes)
+      validator = OrderValidator.new(order)
       valid = validator.valid?
       @orders_valid << valid
       @validation_errors["#{validator.id}"] = validator.errors.full_messages
@@ -62,8 +61,8 @@ class LoadForm
 
   def create_stop(number, params, load, shift)
     stop = load.stops.build(number: number, point_id: params.first[:point_id])
-    params.each do |s| 
-      order_name = s.keys.last.to_s 
+    params.each do |s|
+      order_name = s.keys.last.to_s
       order = Order.find(s["#{order_name}"])
       stop.send("#{order_name}") << order
       unless stop.valid?
@@ -82,5 +81,22 @@ class LoadForm
   def delete_old_loads(date)
     loads = Load.where("date = ?", date)
     loads.each {|load| load.destroy if load.orders.empty?}
+  end
+
+
+  def get_driver(date, shift)
+    if (Date.today - date.to_date).to_i.odd?
+      first_driver  = User.find_by_role('driver_two')
+      second_driver = User.find_by_role('driver_one')
+    else
+      first_driver  = User.find_by_role('driver_one')
+      second_driver = User.find_by_role('driver_two')
+    end
+    case shift
+    when 'M' then first_driver
+    when 'N' then second_driver
+    when 'E' then first_driver
+    else nil
+    end
   end
 end
